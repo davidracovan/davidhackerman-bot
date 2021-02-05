@@ -39,7 +39,8 @@ class Help(commands.Cog):
     @commands.group()
     async def help(self, ctx):
         if ctx.invoked_subcommand is None:
-            embed = create_embed(ctx, 'Bot Commands', description='Writted by David R.')
+            author1 = await ctx.guild.fetch_member(688530998920871969)
+            embed = create_embed(ctx, 'Bot Commands', description=f'Written by {author1.mention}.')
             embed.add_field(name='Fun Commands', value=f'`{PREFIX}help fun`', inline=False)
             embed.add_field(name='School Commands', value=f'`{PREFIX}help school`', inline=False)
             embed.add_field(name='Informational Commands', value=f'`{PREFIX}help info`', inline=False)
