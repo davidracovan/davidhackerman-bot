@@ -9,6 +9,7 @@ from bot.cogs.help import Help
 from bot.cogs.info import Info
 from bot.cogs.links import Links
 from bot.cogs.economy import Economy
+from bot.cogs.moderation import Moderation
 
 # https://discord.com/api/oauth2/authorize?client_id=796805491186597968&permissions=2147483639&scope=bot
 
@@ -21,6 +22,7 @@ def start():
     bot.add_cog(Info(bot))
     bot.add_cog(Links(bot))
     bot.add_cog(Economy(bot))
+    bot.add_cog(Moderation(bot))
     bot.run(os.environ['TOKEN']) # bot token
 
 if __name__ == "__main__":

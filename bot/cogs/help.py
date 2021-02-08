@@ -20,6 +20,7 @@ class Help(commands.Cog):
             embed.add_field(name='School Commands', value=f'`{ctx.prefix}help school`', inline=False)
             embed.add_field(name='Link Commands', value=f'`{ctx.prefix}help links`', inline=False)
             embed.add_field(name='Economy Commands', value=f'`{ctx.prefix}help economy`', inline=False)
+            embed.add_field(name='Moderation Commands', value=f'`{ctx.prefix}help mod`', inline=False)
             await ctx.send(embed=embed)
 
     @help.command(name='fun')
@@ -54,5 +55,12 @@ class Help(commands.Cog):
     async def _economy(self, ctx):
         embed = tools.create_embed(ctx, 'Economy Commands')
         for command in self.bot.get_cog('Economy').get_commands():
+            embed.add_field(name=f'{ctx.prefix}{command.name} {command.signature}', value=command.help, inline=False)
+        await ctx.send(embed=embed)
+
+    @help.command(name='mod')
+    async def _economy(self, ctx):
+        embed = tools.create_embed(ctx, 'Moderation Commands')
+        for command in self.bot.get_cog('Moderation').get_commands():
             embed.add_field(name=f'{ctx.prefix}{command.name} {command.signature}', value=command.help, inline=False)
         await ctx.send(embed=embed)
