@@ -234,50 +234,7 @@ class School(commands.Cog):
 
 bot.add_cog(School(bot)) 
 
-class Economy(commands.Cog):
-    def __init__(self, bot):
-        self.bot = bot
 
-    def _registration_checks(self, ctx):
-        with open('currency.json', 'r') as f:
-            currency = json.load(f)
-        if str(ctx.author.id) not in currency:
-            with open('currency.json', 'w') as f:
-                currency[str(ctx.author.id)] = 0
-                json.dump(currency, f)
-    
-    def _get_currency_dict(self, ctx):
-        self._registration_checks(ctx)
-        with open('currency.json', 'r') as f:
-            currency = json.load(f)
-        return currency
-    
-    def _set_currency_dict(self, ctx, currency):
-        self._registration_checks(ctx)
-        with open('currency.json', 'w') as f:
-            json.dump(currency, f)
-
-    def increment_coins(self, ctx, coins: int):
-        currency = self._get_currency_dict(ctx)
-        currency[str(ctx.author.id)] += coins
-        self._set_currency_dict(ctx, currency)
-    
-    async def command_coins(self, ctx, max_coin_count: int=5):
-        if random.randint(0,100) >= 80:
-            coin_count = random.randint(2, max_coin_count)
-            self.increment_coins(ctx, coin_count)
-            color = discord.Color.green()
-            embed = discord.Embed(title='Coins!', description=f'Nice! You got {coin_count} coins!', color=color)
-            await ctx.send(embed=embed)
-
-    @commands.command(aliases=['bal'])
-    async def balance(self, ctx):
-        bal = self._get_currency_dict(ctx)
-        embed = create_embed(ctx, 'Balance', f'You have {bal[str(ctx.author.id)]} coins.')
-        await ctx.send(embed=embed)
-        log_command(ctx)
-    
-bot.add_cog(Economy(bot))
 
 class Fun(commands.Cog):
     def __init__(self, bot):
@@ -334,75 +291,6 @@ class Fun(commands.Cog):
         log_command(ctx)
 
 bot.add_cog(Fun(bot))
-
-class Games(commands.Cog):
-    BOARDS = []
-    def __init__(self, bot):
-        self.bot = bot
-
-    def create_ttt_board(self, ctx, player2):
-        board = {"board": [["", "", ""], ["", "", ""], ["", "", ""]]}
-        board["server_id"] = ctx.guild.id
-        board["player1"] = ctx.message.author.id
-        board["player2"] = player2.id
-
-        
-    """┌───┬───┬───┐
-    │ X │   │   │
-    ├───┼───┼───┤
-    │   │   │   │
-    ├───┼───┼───┤
-    │   │   │   │
-    └───┴───┴───┘"""
-
-    # @commands.group()
-    # async def start(self, ctx):
-    #     if ctx.invoked_subcommand is None:
-    #         desc = 'You need to specify a game to start.'
-    #         embed = create_embed(ctx, 'Start Game', description=desc)
-    #         await ctx.send(embed=embed)
-    
-    @commands.command(aliases=['tic', 'tac', 'toe', 'ttt'])
-    async def tictactoe(self, ctx, player2: discord.User):
-
-        def check(msg):
-            return msg.author == player2 and msg.channel == ctx.channel and \
-            msg.content.lower() in ['y', 'n']
-
-        try:
-            msg = await bot.wait_for('message', check=check, timeout=15)
-        except asyncio.TimeoutError:
-            embed = create_embed(ctx, 'Tic Tac Toe', description='Unable to start game, opponent did not respond in time.')
-            await ctx.send(embed=embed)
-
-bot.add_cog(Games(bot))
-
-class Links(commands.Cog):
-    def __init__(self, bot):
-        self.bot = bot
-
-    @commands.command()
-    async def safety(self, ctx):
-        embed = create_embed(ctx, 'Safety Dance', url='https://www.youtube.com/watch?v=AjPau5QYtYs')
-        await ctx.send(embed=embed)
-        await bot.get_cog('Economy').command_coins(ctx)
-        log_command(ctx)
-
-    @commands.command()
-    async def tainted(self, ctx):
-        embed = create_embed(ctx, 'Tainted Love', url='https://www.youtube.com/watch?v=ZcyCQLewj10')
-        await ctx.send(embed=embed)
-        await bot.get_cog('Economy').command_coins(ctx)
-        log_command(ctx)
-
-    @commands.command()
-    async def goldenhair(self, ctx):
-        embed = create_embed(ctx, 'Sister Golden Hair', url='https://www.youtube.com/watch?v=XIycEe59Auc')
-        await ctx.send(embed=embed)
-        await bot.get_cog('Economy').command_coins(ctx)
-        log_command(ctx)
-
-bot.add_cog(Links(bot))
 
 class Info(commands.Cog):
     def __init__(self, bot):
@@ -482,13 +370,6 @@ class Moderation(commands.Cog):
 
 bot.add_cog(Moderation(bot))
 
-@bot.command()
-async def join(ctx):
-    await ctx.author.voice.channel.connect()
-
-@bot.command()
-async def leave(ctx):
-    await ctx.voice_client.disconnect()
 
 def create_embed(ctx, title, description=None, url=None):
     embed = discord.Embed(title=title, description=description, url=url)
