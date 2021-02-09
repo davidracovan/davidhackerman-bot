@@ -10,6 +10,7 @@ from bot.cogs.info import Info
 from bot.cogs.links import Links
 from bot.cogs.economy import Economy
 from bot.cogs.moderation import Moderation
+from bot.games.tictactoe import TicTacToe
 
 # https://discord.com/api/oauth2/authorize?client_id=796805491186597968&permissions=2147483639&scope=bot
 
@@ -23,6 +24,7 @@ def start():
     bot.add_cog(Links(bot))
     bot.add_cog(Economy(bot))
     bot.add_cog(Moderation(bot))
+    bot.add_cog(TicTacToe(bot))
     bot.run(os.environ['TOKEN']) # bot token
 
 if __name__ == "__main__":
