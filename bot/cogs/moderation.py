@@ -25,7 +25,7 @@ class Moderation(commands.Cog):
         desc = f'{user} has been kicked.'
         if reason:
             desc += f'\nReason: {reason}'
-        embed = tools.create_embed(ctx, 'User Kick', description=desc)
+        embed = tools.create_embed(ctx, 'User Kick', desc=desc)
         await ctx.send(embed=embed)
         
     @commands.command()
@@ -36,5 +36,5 @@ class Moderation(commands.Cog):
         desc = f'{user} has been banned.'
         if reason:
             desc += f'\nReason: {reason}'
-        embed = tools.create_embed(ctx, 'User Ban', description=desc)
+        embed = tools.create_embed(ctx, 'User Ban', desc=desc)
         await ctx.send(embed=embed)
