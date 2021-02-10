@@ -121,21 +121,9 @@ class TicTacToe(commands.Cog):
         }
         active_game = self.games.get(reaction.message.id)
         
-        if active_game and (user.id != 796805491186597968):
+        if active_game and (user.id != self.bot.user.id):
             location = compare_dict[reaction.emoji]
-            if user.id == active_game[active_game['turn']].id:
+            if user.id == active_game[active_game['turn']].id and not active_game['winner']:
                 if active_game['board'][location] == '':
                     await self.update_game(reaction.message.id, active_game, location, active_game['turn'])
             await reaction.remove(user)
-        
-
-    # @commands.command()
-    # async def sendboard(self, ctx):
-    #     board = 'xxx\nxwo\nowx'
-    #     board = re.sub('x', '<:ttt_x:808393849965379687>', board)
-    #     board = re.sub('o', '<:ttt_o:808393850250854501>', board)
-    #     board = re.sub('w', '<:ttt_w:808396628766621787>', board)
-    #     embed = tools.create_embed(ctx, 'Testing TTT Board', desc=board)
-    #     msg = await ctx.send(embed=embed)
-    #     for arrow in ['↖️','⬆️','↗️','⬅️','⏺','➡️','↙️','⬇️','↘️']:
-    #         await msg.add_reaction(arrow)

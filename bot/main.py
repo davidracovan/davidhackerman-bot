@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 import os
+import dotenv
 
 from bot.cogs.events import Events
 from bot.cogs.school import School
@@ -14,6 +15,8 @@ from bot.games.tictactoe import TicTacToe
 
 # https://discord.com/api/oauth2/authorize?client_id=796805491186597968&permissions=2147483639&scope=bot
 
+
+
 def start():
     bot = commands.Bot(command_prefix='$', help_command=None)
     bot.add_cog(Events(bot))
@@ -25,6 +28,7 @@ def start():
     bot.add_cog(Economy(bot))
     bot.add_cog(Moderation(bot))
     bot.add_cog(TicTacToe(bot))
+    dotenv.load_dotenv()
     bot.run(os.environ['TOKEN']) # bot token
 
 if __name__ == "__main__":
